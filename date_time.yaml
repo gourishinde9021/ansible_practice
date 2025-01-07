@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  - name: Data and time example in ansible
+    debug:
+      var=ansible_date_time.date
+      var=ansible_date_time.time
+
+  - name: create date and time file
+    command: touch gouri{{ansible_date_time.date}}.log
+
+  - name: Shell Examples
+    shell:
+      "date"
+    register: datecmd
+    tags: datecmd
+
+  - name: Print date
+    debug:
+      msg: "{{datecmd.stdout}}"

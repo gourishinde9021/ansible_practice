@@ -1,0 +1,37 @@
+---
+
+- hosts: localhost
+  become: true
+  vars:
+    Files: []
+  tasks:
+    - name: Find files bigger that 10 MB in size
+      find:
+        paths: /var/log
+        file_type: directory
+        recurse: no
+      register: output
+
+    - name: Adding files to List
+      no_log: true
+      set_fact:
+        Files: "{{ Files + [item.path] }}"
+      with_items: "{{ output.files }}"
+
+    - debug: var=Files
+
+    - name: Find files older that 30 days
+      find:
+        paths: /var/log
+        patterns: '*.log'
+        age: 15d
+        age_stamp: mtime
+      register: olderfiles
+
+    - name: Delete files older that 30 days
+      become: yes
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ olderfiles.files }}"
+

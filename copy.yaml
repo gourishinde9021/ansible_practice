@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  - name: copy content to file
+    copy: content="Hello World from Gouri ..." dest="/home/ubuntu/gouri.txt"
+
+  - name: copy file to /tmp
+    copy: src="/home/ubuntu/gouri.txt" dest="/tmp/gouri.txt"
+
+  - name: replace a word
+    replace:
+      path: /home/ubuntu/gouri.txt
+      regexp: 'Hello'
+      replace: "Hello, Welcome"
+
+  - name: display file
+    debug:
+      msg: "{{ lookup('file', '/home/ubuntu/gouri.txt') }}"

@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Package
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+      - vim
+      - git
+      - nginx
+
+  - name: start nginx service
+    service:
+      name: nginx
+      status: daemon-reload
+

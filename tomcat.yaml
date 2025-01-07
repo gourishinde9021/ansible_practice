@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+  - name: Download Tomcat
+    get_url: url=https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz dest=/opt/
+
+  - name: extract tomcat
+    command: tar -xvf /opt/apache-tomcat-9.0.98.tar.gz -C /opt/
+
+  - name: Move to smaller directory
+    command: mv /opt/apache-tomcat-9.0.98 /opt/tomcat
+
+  - name: Change ownership and group
+    file: 
+      path: /opt/tomcat
+      owner: ubuntu
+      group: ubuntu
+      mode: 755
+      state: directory
+      recurse: yes
+
+  - name: Start Tomcat
+    command: nohup /opt/tomcat/bin/startup.sh
+    become: true
+

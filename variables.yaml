@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  vars:
+    name:
+      - gouri
+      - vedika
+  tasks:
+  - name: Ansible basic variable example
+    debug:
+      msg: "{{ name[1] }}"
+
+  - name: ansible register variable
+    shell: "find *.txt"
+    args:
+      chdir: "/home/ubuntu"
+    register: reg_output
+
+  - debug:
+      var: reg_output
+

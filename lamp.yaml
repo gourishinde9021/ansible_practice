@@ -1,0 +1,33 @@
+---
+
+
+- hosts: all
+  become: true
+  tasks:
+    - name: latest package install
+      apt:
+        name:
+          - firewalld
+          - mini-httpd
+          - mariadb-server
+          - php
+          - php-mysql
+        state: latest
+
+    - name: Enable httpd and running
+      service:
+        name: mini-httpd
+        enabled: true
+        state: started
+
+    - name: Mariadb enabled and started
+      service:
+        name: mariadb
+        enabled: true
+        state: started
+    
+    - name: Copy the php file
+      get_url:
+        url: "https://www.middlewareinventory.com/index.php"
+        dest: /var/www/html/index.html
+        mode: 0644

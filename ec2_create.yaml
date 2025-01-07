@@ -1,0 +1,20 @@
+---
+
+- name: Create ec2 instance
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: Get info block
+      block:
+        - name: Get running instance info
+          ec2_instance_info:
+          register: ec2info
+
+        - name: Print info
+          debug: var="ec2info.instances"
+
+      tags:
+        - always
+        - getinfoonly
+

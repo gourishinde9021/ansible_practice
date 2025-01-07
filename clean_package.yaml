@@ -1,0 +1,13 @@
+---
+
+
+- hosts: all
+  become: true
+  tasks:
+    - name: remove useless package
+      apt:
+        autoclean: yes
+
+    - name: remove dependencies
+      apt:
+        autoremove: yes

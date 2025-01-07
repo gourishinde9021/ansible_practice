@@ -1,0 +1,41 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Clear cache and restart tomcat
+      delay: 10
+      async: 10
+      poll: 60
+      shell: |
+
+        echo -e "\n Change the directory to the Tomcat: "
+        cd /opt/tomcat/
+
+        echo -e "\n Present working directory is" `pwd`
+ 
+        echo -e "\n Stopping the tomcat instance" 
+        bin/shutdown.sh
+
+        echo -e "\n Clearning the tmp and work directory of tomcat"
+        rm -rfv tmp/*
+        rm -rfv work/*
+
+        echo -e "\nTruncate the log file"
+        > logs/catalina.out
+
+        echo -e "\nDirectory listing"
+        ls -lrtd logs/catalina.out
+
+        echo -e "\nStarting the instance"
+        bin/startup.sh
+
+      args:
+        chdir: "/opt/tomcat/"
+
+      register: fileout
+      tags: fileout
+
+    - name: debug
+      debug:
+        msg: "{{ fileout.stdout }}" 

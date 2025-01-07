@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: create a file
+      file: path=/home/ubuntu/gouri.txt state=touch
+
+    - name: create a dictonary
+      file: path=/home/ubuntu/gouri state=directory mode=775 owner=ubuntu group=ubuntu
+
+    - name: create multible directories
+      file: path={{item}} state=directory
+      with_items:
+      - '/home/ubuntu/a'
+      - '/home/ubuntu/b'
+      - '/home/ubuntu/c'
+      - '/home/ubuntu/d'

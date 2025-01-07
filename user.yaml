@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: true
+
+  tasks:
+  - name: Create user
+    user: name=gouri password=gouri groups=ubuntu shell=/bin/bash
+
+  - name: Delete user
+    user: name=gouri state=absent remove=yes force=yes

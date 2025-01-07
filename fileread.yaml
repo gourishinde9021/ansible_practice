@@ -1,0 +1,18 @@
+---
+
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Read /etc/passwd file
+      async: 10
+      poll: 0
+      shell:
+        "cat passwd"
+      args:
+        chdir: "/etc"
+      register: fileout
+      tags: fileout
+
+    - debug: 
+        msg: "{{fileout.stdout}}"

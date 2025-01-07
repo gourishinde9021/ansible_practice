@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Gather package facts
+      package_facts:
+        manager: auto
+          
+    - name: Validating if package is installed or not
+      debug:
+        msg: "{{ item }} is installed"
+      when: '"{{ item }}" in ansible_facts.packages'
+      with_items:
+        - apache2
+        - nginx
+        - filebeat

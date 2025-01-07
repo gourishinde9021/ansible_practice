@@ -1,0 +1,5 @@
+[servers]
+node1 ansible_host=localhost private-key=~/.ssh/ansible_key
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Ansible zip file archive
+    archive:
+      path:
+        - /home/ubuntu/gouri.txt
+        - /tmp/gouri.txt
+      dest: /home/ubuntu/gouri.zip
+      format: zip
+

@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Download maven
+      get_url:
+        url: https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+        dest: /opt/apache-maven-3.9.9-bin.tar.gz
+
+    - name: Extract Maven
+      command: tar -xvf /opt/apache-maven-3.9.9-bin.tar.gz -C /opt/
+ 
+    - name: Move to maven directory
+      command: mv /opt/apache-maven-3.9.9 /opt/maven
+
+    - name: Update profile
+      copy: content="export M2_HOME=/opt/maven/apache-maven-3.9.9 \n" dest="/etc/profile.d/maven.sh"
+
+    - name: update file by lineinfile
+      lineinfile:
+        line: "export PATH=${M2_HOME}/bin:$PATH"
+        path: /etc/profile.d/maven.sh
+
+    - name: source profile
+      shell: . /etc/profile.d/maven.sh
+

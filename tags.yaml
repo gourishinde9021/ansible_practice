@@ -1,0 +1,27 @@
+---
+
+- name: Pre, Post tasks and Tags example
+  hosts: all
+  become: true
+  tags:
+    - gouri
+  pre_tasks:
+    - debug:
+        msg: "Started Pre Task with Tag - Gouri"
+
+  tasks:
+    - name: Going to execute main task
+      debug:
+        msg: "Executing main task"
+
+  post_tasks:
+    - debug:
+        msg: "Completed task with Tag - Gouri"
+
+    - name: Play without tags
+      hosts: localhost
+      become: true
+      tasks:
+        - name: Command to list files
+          shell: ls -l > gouri_list.txt
+

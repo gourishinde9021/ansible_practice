@@ -1,0 +1,29 @@
+---
+
+- name: A playbook to test Async and poll
+  hosts: all
+  tasks:
+    - name: Copy the script
+      copy: 
+        src: "longrunningscript.sh"
+        dest: /tmp
+
+    - name: Execute the script
+      shell:
+        "chmod 755 /tmp/longrunningscript.sh && /tmp/longrunningscript.sh 60 "
+      async: 140
+      poll: 0
+      register: scrout
+
+    - name: some task just to debug
+      debug: var=scrout.stdout_lines
+
+    - name: Checking job status
+      async_status:
+        jid: "{{ scrout.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
+
+    - name: check script status
+      debug: var=job_result.stdout_lines

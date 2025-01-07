@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    block:
+      - name: get properties of src.txt
+        stat:
+          path: files/src.txt
+          checksum_algorithm: sha1
+        register: src_info
+
+      - name: copy src.txt to dest.txt
+        copy:
+          src: files/src.txt
+          dest: files/dest.txt
+          force: yes
+          checksum:
+        register: copy_out
+
+      - name: fail if copy was a failure
+        fail:
+          msg: "copy failed"
+        when: src_info.stat.checksum != copy_out.checksum
+
+      - name: print copy successful
+        debug:
+          msg: "Copy Successful"
+
+    tags: 
+       - checksum
+
+
+
