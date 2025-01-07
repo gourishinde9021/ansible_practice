@@ -1,0 +1,45 @@
+- hosts: all
+  vars:
+    python:
+      Designer: "G S"
+      Developer: 'Python Software Foundation'
+      OS: 'Cross-Platform'
+    hello:
+      - World
+      - Asia
+      - South America
+      - North America
+      - Artic
+      - Antartic
+      - Oceania
+      - Europe
+      - Africa
+
+  tasks:
+  - name: Ansible Dictionary Example
+    debug:
+      msg: "{{ python }}"
+
+  - name: Ansible Find example
+    debug:
+      msg: "{{ python.Designer }}"
+    
+  - name: Ansible List Variable Example
+    debug:
+      msg: "{{ hello[5] }}"
+
+  - name: Print array
+    debug:
+      msg: "{{ item }}"
+    with_items:
+      - "{{ hello }}"
+
+  - name: Printing the environment variable in Ansible
+    debug:
+      msg: "{{ lookup('env', 'HOME') }}"
+
+  - name: Remote server ansible variables
+    debug:
+      msg: "{{ ansible_env.HOME }}"
+
+
