@@ -1,0 +1,12 @@
+---
+
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: sleep for 60 sec
+      tags: sleep60
+      wait_for:
+        delay: 60
+        timeout: 0
+
