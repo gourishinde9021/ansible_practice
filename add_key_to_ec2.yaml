@@ -1,0 +1,38 @@
+---
+
+- name: "Playbook to Create user and add key to EC2 instance"
+  hosts: all
+  become: true
+  tasks:
+
+    - name: "Create group"
+      group:
+        name: "{{item}}"
+        state: present
+      with_items:
+        - adminteam
+        - devopsteam
+
+    - name: "Create a user" 
+      user:
+        name: "{{item.name}}"
+        create_home: yes
+        group: "{{item.group}}"
+        state: present
+        ssh_key_file: ~/.ssh/id_rsa
+        ssh_key_type: rsa
+
+      with_items:
+        - { name: 'sarav', group: 'adminteam' }
+        - { name: 'hanu', group: 'devopsteam' }
+
+    - name: "Copy the authorized key file from"
+      authorized_key:
+        user: "{{item.name}}"
+        state: "{{item.userstate}}"
+        key: "{{ lookup('file', '{{ item.key }}') }}"
+      with_items:
+        - { name: 'sarav', key: 'sarav.pub', userstate: 'present'}
+        - { name: 'hanu', key: 'hanu.pub', userstate: 'present'}
+
+      

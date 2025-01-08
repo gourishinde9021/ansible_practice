@@ -1,0 +1,14 @@
+---
+
+
+- name: AWS S3 bucket list
+  hosts: localhost
+  tasks:
+    - name: List keys or Objects
+      amazon.aws.aws_s3:
+        profile: personal
+        bucket: mys3bucket243242
+        mode: list
+      register: listresult
+
+    - debug: msg={{ listresult.s3_keys }}
