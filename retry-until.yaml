@@ -1,0 +1,13 @@
+---
+
+- name: Retry until a file is available
+  hosts: localhost
+  tasks:
+    - name: Validate if file is present
+      file:
+        path: /home/ubuntu/gouri.txt
+        state: file
+      register: lsresult
+      until: "lsresult is not failed"
+      retries: 10
+      delay: 10
