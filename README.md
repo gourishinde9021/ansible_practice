@@ -292,8 +292,7 @@ Roles are not playbooks. Roles are small functionality which can be independentl
 
 ansible-galaxy [delete|import|info|init|install|list|login|remove|search|setup] [--help] [options] ... 
 
-	$ ansible-galaxy init garryrole 
-        
+	$ ansible-galaxy init garryrole   
         $ tree garryrole/ 
         garryrole/ 
         ├── defaults 
@@ -331,11 +330,11 @@ Example:
 
 The ansible-vault command has several modes, which are given as the first argument. This table describes the modes:
 
-Mode                     Action
-Create            This starts Wer default editor to create a new encrypted file
-Encrypt           This encrypts an existing file, turning it into a vault
-Edit              This edits a vault allowing We to change the content
-Rekey             This changes the password that is used to encrypt the vault
-Decrypt           This decrypts the vault turning it back into a regular file
+	Mode                     Action
+	Create            This starts Wer default editor to create a new encrypted file
+	Encrypt           This encrypts an existing file, turning it into a vault
+	Edit              This edits a vault allowing We to change the content
+	Rekey             This changes the password that is used to encrypt the vault
+	Decrypt           This decrypts the vault turning it back into a regular file
 
 ----------------------------------------------------------------------------------------------------------------------------------
