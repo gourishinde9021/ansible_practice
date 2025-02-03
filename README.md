@@ -186,8 +186,9 @@ Module examples :
 $ ansible webservers –m setup  # To get information about the network or hardware or OS version or memory related information the setup module will help to gather the same about the target machines.
 
 2.Command Module --> The command module simply executes a specific command on the target machine and gives the output.
-$ ansible webservers –m command - an ‘uptime’
-$ ansible webservers –m command –a ‘hostname’
+
+	$ ansible webservers –m command - an ‘uptime’
+	$ ansible webservers –m command –a ‘hostname’
 
 3) Shell Module --> To execute any command in the shell of Wer choice We can use the Shell module. The shell module commands are run in /bin/sh shell and We can make use of the operators like ‘>’ or ‘|’ (pipe symbol or even environment variables.
 
@@ -219,4 +220,61 @@ we can put a pause there
 8. Cloud Infrastructure modules -->  Infrastructure modules allow us to not only manage the setup of our machines, but also the creation of those machines themselves. Apart from this, we can also automate much of the infrastructure surrounding them. 
 
 ----------------------------------------------------------------------------------------------------------------------------------
+**Ansible Playbooks -->** 
 
+We have seen how to run single tasks or one time tasks using Modules, but what if We need to execute multiple tasks? Playbooks help to run them in a scripted way.
+Playbooks define variables, configurations, deployment steps, assign roles, perform multiple tasks. For E.g. COPY / DELETE Files and Folders, install packages, start services. 
+So primarily playbooks are defined to orchestrate the steps to multiple machines or servers and get them all to a certain desired state.
+
+Playbook is written in YAML format with a .yml file extension. One needs to be very careful with the format and alignment which makes it very sensitive.
+
+It contains the following sections:
+
+Every playbook starts with 3 hyphens '---' and ends with 3 dots '...'
+Host section – Defines the target machines on which the playbook should run. This is based on the Ansible inventory file.
+Variable section – This is optional and can declare all the variables needed in the playbook. We will look at some examples as well.
+Tasks section – This section lists out all the tasks that should be executed on the target machine. It specifies the use of Modules. Every task has a name which is a small description of what the task will do and will be listed while the playbook is run.
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+**Ansible Roles** : 
+Its another level of abstraction used to organise Playbooks.
+Ansible roles allow us to configure groups of nodes at the same time, without repeating ourselves. Roles also provide a way to create modular code, which then can then be shared and reused in playbooks.
+it is a group of variables, tasks, files, and handlers that are stored in a standardized file structure.
+Roles are not playbooks. Roles are small functionality which can be independently used but have to be used within playbooks
+
+ansible-galaxy [delete|import|info|init|install|list|login|remove|search|setup] [--help] [options] ... 
+
+	$ ansible-galaxy init garryrole 
+
+$ tree garryrole/ 
+garryrole/ 
+├── defaults 
+│   └── main.yml 
+├── files ├── handlers 
+│   └── main.yml 
+├── meta 
+│   └── main.yml 
+├── README.md ├── tasks 
+│   └── main.yml 
+├── templates ├── tests │   ├── inventory 
+│   └── test.yml 
+└── vars 
+    └── main.yml 
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+**Handlers** --> Its like regular task but it will run only when task contains 'notify' directive 
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+**Ansible Vaults** --> are files that are encrypted and can be decrypted by Ansible transparently. We can use them for includes, variable files, tasks lists in roles and any other YAML formatted file that Ansible uses. We can also use it with both JSON and YAML files included with the -e command-line argument to ansible-playbook. Vault files are managed with the ansible-vault command and can be used as if they were not encrypted at all.
+
+The ansible-vault command has several modes, which are given as the first argument. This table describes the modes:
+
+Mode                     Action
+Create            This starts Wer default editor to create a new encrypted file
+Encrypt           This encrypts an existing file, turning it into a vault
+Edit              This edits a vault allowing We to change the content
+Rekey             This changes the password that is used to encrypt the vault
+Decrypt           This decrypts the vault turning it back into a regular file
